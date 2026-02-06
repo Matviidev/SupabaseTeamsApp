@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.0.0",
+    "@std/encoding/base64": "https://deno.land/std@0.203.0/encoding/base64.ts",
+    "pg": "npm:pg@^8.18.0",
+    "@hono/zod-validator": "jsr:@hono/zod-validator@0.7.6",
+    "zod": "npm:zod@^4.3.6",
+    "kysely": "npm:kysely@^0.28.10"
+  },
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  }
+}
