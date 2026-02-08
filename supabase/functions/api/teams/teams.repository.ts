@@ -1,4 +1,4 @@
-import { Expression, ExpressionBuilder, Insertable, Kysely } from "kysely";
+import { Expression, ExpressionBuilder, Insertable } from "kysely";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { DB, Teams, DBExecutor } from "shared/db/types.ts";
 
@@ -6,14 +6,17 @@ interface SelectOptions {
   omitUsers?: boolean;
 }
 
-function users(eb: ExpressionBuilder<DB, "teams">, teamId: Expression<string>) {
+const users = (
+  eb: ExpressionBuilder<DB, "teams">,
+  teamId: Expression<string>,
+) => {
   return jsonArrayFrom(
     eb
       .selectFrom("profiles")
       .select(["id", "fullName", "avatarUrl", "isOnline", "lastSeen"])
       .whereRef("profiles.teamId", "=", teamId),
   ).as("users");
-}
+};
 
 export const create = (db: DBExecutor, data: Insertable<Teams>) => {
   return db

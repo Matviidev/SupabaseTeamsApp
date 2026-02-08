@@ -2,7 +2,6 @@ import {
   Expression,
   ExpressionBuilder,
   Insertable,
-  Kysely,
   SelectQueryBuilder,
   sql,
   Updateable,
@@ -29,17 +28,17 @@ interface SelectOptions {
   omitUsers?: boolean;
 }
 
-function users(
+const users = (
   eb: ExpressionBuilder<DB, "products">,
   creatorId: Expression<string>,
-) {
+) => {
   return jsonObjectFrom(
     eb
       .selectFrom("profiles")
       .select(["id", "fullName", "avatarUrl", "isOnline", "lastSeen"])
       .whereRef("profiles.id", "=", creatorId),
   ).as("user");
-}
+};
 
 const applyCursor = <O>(
   qb: SelectQueryBuilder<DB, "products", O>,
