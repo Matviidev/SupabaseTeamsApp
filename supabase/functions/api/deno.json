@@ -1,6 +1,8 @@
 {
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.0.0",
+    "shared/": "../_shared/",
+    "djwt": "https://deno.land/x/djwt@v3.0.2/mod.ts",
     "@std/encoding/base64": "https://deno.land/std@0.203.0/encoding/base64.ts",
     "pg": "npm:pg@^8.18.0",
     "@hono/zod-validator": "jsr:@hono/zod-validator@0.7.6",

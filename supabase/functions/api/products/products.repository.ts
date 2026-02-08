@@ -7,7 +7,7 @@ import {
   sql,
   Updateable,
 } from "kysely";
-import { DB, Products } from "../db/types.ts";
+import { DB, Products, DBExecutor } from "shared/db/types.ts";
 import {
   GetProductsQuery,
   PaginationCursor,
@@ -50,7 +50,7 @@ const applyCursor = <O>(
   return qb.where(sql`(created_at, id)`, char, sql`(${createdAt}, ${id})`);
 };
 
-export const findById = (db: Kysely<DB>, id: string, opt?: SelectOptions) => {
+export const findById = (db: DBExecutor, id: string, opt?: SelectOptions) => {
   return db
     .selectFrom("products")
     .select(selectFields)
@@ -62,7 +62,7 @@ export const findById = (db: Kysely<DB>, id: string, opt?: SelectOptions) => {
 };
 
 export const create = (
-  db: Kysely<DB>,
+  db: DBExecutor,
   data: Insertable<Products>,
   opt?: SelectOptions,
 ) => {
@@ -77,7 +77,7 @@ export const create = (
 };
 
 export const getPaginated = (
-  db: Kysely<DB>,
+  db: DBExecutor,
   { cursor, status, q, sortDir, createdBy, limit }: GetProductsQuery,
   opt?: SelectOptions,
 ) => {
@@ -100,7 +100,7 @@ export const getPaginated = (
 };
 
 export const updateById = (
-  db: Kysely<DB>,
+  db: DBExecutor,
   id: string,
   data: Updateable<Products>,
   opt?: SelectOptions,
@@ -116,8 +116,7 @@ export const updateById = (
     .executeTakeFirstOrThrow();
 };
 
-export const deleteById = (db: Kysely<DB>, id: string) => {
-  console.log(id);
+export const deleteById = (db: DBExecutor, id: string) => {
   return db
     .deleteFrom("products")
     .where("id", "=", id)

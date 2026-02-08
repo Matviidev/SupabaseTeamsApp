@@ -2,13 +2,13 @@ import * as ProductsRepository from "./products.repository.ts";
 import * as TeamsRepository from "../teams/teams.repository.ts";
 import { UserData } from "../common/middleware/types.ts";
 import { CreateProduct } from "./schemas/createProduct.schema.ts";
-import { HttpError } from "../utils/errors/http.error.ts";
+import { HttpError } from "shared/errors/http.error.ts";
 import {
   GetProductsQuery,
   PaginationCursor,
 } from "./schemas/getProductsParams.schema.ts";
 import { encodeBase64String } from "../utils/encodeBase64String.ts";
-import { ProductStatus } from "../db/types.ts";
+import { ProductStatus } from "shared/db/types.ts";
 import { UpdateProduct } from "./schemas/updateProduct.schema.ts";
 
 export const createProduct = (

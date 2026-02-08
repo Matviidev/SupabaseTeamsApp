@@ -2,13 +2,12 @@ import { CreateTeam } from "./schemas/createTeam.schema.ts";
 import * as TeamsRepository from "./teams.repository.ts";
 import * as UsersRepository from "../users/users.repository.ts";
 import { UserData } from "../common/middleware/types.ts";
-import { HttpError } from "../utils/errors/http.error.ts";
+import { HttpError } from "shared/errors/http.error.ts";
 
 export const createTeam = ({ db, payload }: UserData, data: CreateTeam) => {
   const { sub: userId } = payload;
   return db.transaction().execute(async (trx) => {
     const newTeam = await TeamsRepository.create(trx, data);
-    console.log({ newTeam });
     await UsersRepository.updateById(trx, userId, {
       teamId: newTeam.id,
     });

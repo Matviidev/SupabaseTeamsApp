@@ -1,5 +1,5 @@
 import { Kysely } from "kysely";
-import { DB } from "../../db/types.ts";
+import { DB } from "shared/db/types.ts";
 
 export type SupabaseJwtPayload = {
   iss?: string;
@@ -25,7 +25,7 @@ export type UserData = {
   payload: SupabaseJwtPayload;
 };
 
-export type HonoEnv = {
+export type AuthCtx = {
   Variables: {
     user: UserData;
   };

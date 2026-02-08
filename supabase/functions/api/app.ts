@@ -1,6 +1,6 @@
 import { Hono } from "@hono/hono";
 import { cors } from "@hono/hono/cors";
-import { httpErrorHandler } from "./utils/errors/httpErrorHandler.ts";
+import { httpErrorHandler } from "shared/errors/httpErrorHandler.ts";
 import users from "./users/users.controller.ts";
 import teams from "./teams/teams.controller.ts";
 import products from "./products/products.controller.ts";

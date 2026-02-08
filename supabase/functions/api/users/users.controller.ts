@@ -1,10 +1,10 @@
 import { Hono } from "@hono/hono";
-import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import * as UserService from "./users.service.ts";
 import { formatZodError } from "../utils/formatZodError.ts";
 import { authMiddleware } from "../common/middleware/auth.ts";
 import { UserData } from "../common/middleware/types.ts";
+import { IdParamSchema } from "../common/schemas/queryId.schema.ts";
 
 const users = new Hono<{ Variables: { user: UserData } }>();
 
@@ -18,7 +18,7 @@ users.get("/me", async (c) => {
 
 users.get(
   "/:id",
-  zValidator("param", z.object({ id: z.uuid() }), formatZodError),
+  zValidator("param", IdParamSchema, formatZodError),
   async (c) => {
     const { id } = c.req.valid("param");
     const authUser = c.get("user");

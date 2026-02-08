@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { ProductStatus } from "../../db/types.ts";
+import { ProductStatus } from "shared/db/types.ts";
 import { decodeBase64 } from "@std/encoding/base64";
 
-const statusEnum: ProductStatus[] = ["Draft", "Active", "Deleted"];
-export const ProductStatusEnum = z.enum(statusEnum);
+const statusEnum: ProductStatus[] = ["Draft", "Active"];
+export const ProductStatusEnum = z.enum(ProductStatus);
 
 export const PaginationCursorSchema = z.object({
   createdAt: z.coerce.date(),

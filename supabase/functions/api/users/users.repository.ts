@@ -1,7 +1,7 @@
-import { Kysely, Updateable } from "kysely";
-import { DB, Profiles } from "../db/types.ts";
+import { Updateable } from "kysely";
+import { Profiles, DBExecutor } from "shared/db/types.ts";
 
-export const findById = (db: Kysely<DB>, id: string) => {
+export const findById = (db: DBExecutor, id: string) => {
   return db
     .selectFrom("profiles")
     .where("id", "=", id)
@@ -9,12 +9,12 @@ export const findById = (db: Kysely<DB>, id: string) => {
     .executeTakeFirstOrThrow();
 };
 
-export const findAll = (db: Kysely<DB>) => {
+export const findAll = (db: DBExecutor) => {
   return db.selectFrom("profiles").selectAll().execute();
 };
 
 export const updateById = (
-  db: Kysely<DB>,
+  db: DBExecutor,
   id: string,
   data: Updateable<Profiles>,
 ) => {

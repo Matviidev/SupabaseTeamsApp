@@ -1,9 +1,9 @@
-import { decode } from "https://deno.land/x/djwt/mod.ts";
+import { decode } from "djwt";
 import { MiddlewareHandler } from "@hono/hono";
-import { getDb } from "../../db/database.ts";
-import { HonoEnv, SupabaseJwtPayload } from "./types.ts";
+import { getDb } from "shared/db/database.ts";
+import { AuthCtx, SupabaseJwtPayload } from "./types.ts";
 
-export const authMiddleware: MiddlewareHandler<HonoEnv> = async (c, next) => {
+export const authMiddleware: MiddlewareHandler<AuthCtx> = async (c, next) => {
   const authHeader = c.req.header("Authorization");
   const jwt = authHeader?.replace("Bearer ", "");
 

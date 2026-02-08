@@ -1,6 +1,6 @@
 import { Expression, ExpressionBuilder, Insertable, Kysely } from "kysely";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
-import { DB, Teams } from "../db/types.ts";
+import { DB, Teams, DBExecutor } from "shared/db/types.ts";
 
 interface SelectOptions {
   omitUsers?: boolean;
@@ -15,7 +15,7 @@ function users(eb: ExpressionBuilder<DB, "teams">, teamId: Expression<string>) {
   ).as("users");
 }
 
-export const create = (db: Kysely<DB>, data: Insertable<Teams>) => {
+export const create = (db: DBExecutor, data: Insertable<Teams>) => {
   return db
     .insertInto("teams")
     .values(data)
@@ -23,7 +23,7 @@ export const create = (db: Kysely<DB>, data: Insertable<Teams>) => {
     .executeTakeFirstOrThrow();
 };
 
-export const findByInviteCode = (db: Kysely<DB>, code: string) => {
+export const findByInviteCode = (db: DBExecutor, code: string) => {
   return db
     .selectFrom("teams")
     .where("inviteCode", "=", code)
@@ -31,7 +31,7 @@ export const findByInviteCode = (db: Kysely<DB>, code: string) => {
     .executeTakeFirst();
 };
 
-export const findById = (db: Kysely<DB>, id: string, opt?: SelectOptions) => {
+export const findById = (db: DBExecutor, id: string, opt?: SelectOptions) => {
   return db
     .selectFrom("teams")
     .where("id", "=", id)
@@ -42,7 +42,7 @@ export const findById = (db: Kysely<DB>, id: string, opt?: SelectOptions) => {
     .executeTakeFirst();
 };
 
-export const findTeamUsers = (db: Kysely<DB>, id: string) => {
+export const findTeamUsers = (db: DBExecutor, id: string) => {
   return db
     .selectFrom("profiles")
     .where("teamId", "=", id)

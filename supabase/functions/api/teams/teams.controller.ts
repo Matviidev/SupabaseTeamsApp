@@ -1,20 +1,20 @@
-import { z } from "zod";
 import { Hono } from "@hono/hono";
 import { zValidator } from "@hono/zod-validator";
 import { formatZodError } from "../utils/formatZodError.ts";
 import { authMiddleware } from "../common/middleware/auth.ts";
-import { UserData } from "../common/middleware/types.ts";
+import { AuthCtx } from "../common/middleware/types.ts";
 import { CreateTeamSchema } from "./schemas/createTeam.schema.ts";
 import * as TeamsService from "./teams.service.ts";
 import { JoinTeamSchema } from "./schemas/joinTeam.schema.ts";
+import { IdParamSchema } from "../common/schemas/queryId.schema.ts";
 
-const teams = new Hono<{ Variables: { user: UserData } }>();
+const teams = new Hono<AuthCtx>();
 
 teams.use("*", authMiddleware);
 
 teams.get(
   "/:id",
-  zValidator("param", z.object({ id: z.uuid() }), formatZodError),
+  zValidator("param", IdParamSchema, formatZodError),
   async (c) => {
     const { id: teamId } = c.req.valid("param");
     const authUser = c.get("user");

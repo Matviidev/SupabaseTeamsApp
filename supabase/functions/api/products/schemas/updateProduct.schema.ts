@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ProductStatus } from "../../db/types.ts";
+import { ProductStatus } from "shared/db/types.ts";
 
 export const UpdateProductSchema = z.object({
   title: z.string().min(1).optional(),

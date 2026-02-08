@@ -3,18 +3,23 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from "kysely";
+import type { ColumnType, Kysely, Transaction } from "kysely";
 
-export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
-  ? ColumnType<S, I | undefined, U>
-  : ColumnType<T, T | undefined, T>;
+export enum ProductStatus {
+  ACTIVE = "Active",
+  DELETED = "Deleted",
+  DRAFT = "Draft",
+}
 
-export type ProductStatus = "Active" | "Deleted" | "Draft";
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Products {
-  createdAt: Generated<Timestamp | null>;
+  createdAt: Generated<Timestamp>;
   createdBy: string;
   description: string | null;
   fts: Generated<string | null>;
@@ -23,26 +28,26 @@ export interface Products {
   status: Generated<ProductStatus | null>;
   teamId: string;
   title: string;
-  updatedAt: Generated<Timestamp | null>;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface Profiles {
   avatarUrl: string | null;
-  createdAt: Generated<Timestamp | null>;
+  createdAt: Generated<Timestamp>;
   fullName: string | null;
   id: Generated<string>;
   isOnline: Generated<boolean | null>;
   lastSeen: Generated<Timestamp | null>;
   teamId: string | null;
-  updatedAt: Generated<Timestamp | null>;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface Teams {
-  createdAt: Generated<Timestamp | null>;
+  createdAt: Generated<Timestamp>;
   id: Generated<string>;
   inviteCode: Generated<string | null>;
   name: string;
-  updatedAt: Generated<Timestamp | null>;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface DB {
@@ -50,3 +55,5 @@ export interface DB {
   profiles: Profiles;
   teams: Teams;
 }
+
+export type DBExecutor = Kysely<DB> | Transaction<DB>;
