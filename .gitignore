@@ -31,3 +31,5 @@ lerna-debug.log*
 Thumbs.db
 .cache
 .pnpm-store
+.temp/
+.branches/

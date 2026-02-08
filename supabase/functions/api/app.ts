@@ -10,7 +10,10 @@ export const app = new Hono().basePath(`/api`);
 app.use(
   "*",
   cors({
-    origin: "*",
+    origin: (origin) => {
+      const allowedOrigin = Deno.env.get("ALLOWED_ORIGIN");
+      return origin === allowedOrigin ? origin : null;
+    },
     allowHeaders: ["Content-Type", "Authorization", "x-client-info", "apikey"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   }),
